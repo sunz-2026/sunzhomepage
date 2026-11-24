@@ -7,7 +7,7 @@
     <!-- 구글 폰트에서 깔끔하고 트렌디한 고딕체(Inter)와 감성적인 필기체 폰트(Caveat)를 불러옵니다 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Give+You+Glory&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Handlee&family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Give+You+Glory&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Handlee&family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@400;500&family=Londrina+Solid:wght@900&family=Amatic+SC:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 
     <!-- 설명 글씨용 Pretendard 글꼴 (무료, SIL 오픈 폰트 라이선스) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
@@ -29,6 +29,8 @@
             font-family: 'Inter', 'Noto Sans KR', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
+        /* 오른쪽에 숨어 있는 메뉴판 때문에 휴대폰에서 화면이 옆으로 밀리지 않게 해요 */
+        html, body { overflow-x: hidden; }
         /* 1. 상단 헤더 영역 */
         header {
             display: flex;
@@ -50,7 +52,7 @@
         }
         /* 직접 쓴 로고 그림 (sunz-logo-bold.png: 원래 로고를 아주 살짝 두껍게 만든 거예요, 배경 투명) */
         header .logo img {
-            height: 72px; /* 로고 크기 (숫자를 키우면 더 커져요) */
+            height: 52px; /* 로고 크기 (숫자를 키우면 더 커져요, 원래 72px) */
             width: auto;
             display: block;
             transform-origin: 30% 60%;
@@ -130,7 +132,7 @@
             background-blend-mode: multiply;
             border-left: 1px solid #e6e2da;
             box-sizing: border-box;
-            padding: 48px 60px 40px 48px;
+            padding: 32px 60px 40px 48px; /* 위쪽 여백 32px (숫자를 줄이면 X와 메뉴가 더 위로) */
             display: flex;
             flex-direction: column;
             transform: translateX(100%);
@@ -155,10 +157,82 @@
             border: none;
             cursor: pointer;
             padding: 0;
-            margin-bottom: 50px;
+            margin-bottom: 14px; /* X와 메뉴 사이 간격 (원래 50px) */
         }
         .menu-close:hover {
             color: #000000;
+        }
+        /* 닫기 X 표시 (width·height 숫자를 바꾸면 크기가 바뀌어요) */
+        .menu-close .menu-x {
+            display: block;
+            width: 20px;
+            height: 20px;
+            overflow: visible;
+            fill: none;
+            stroke: currentColor; /* 평소엔 회색, 마우스를 올리면 검정 */
+            stroke-width: 1.3;    /* 선 두께 */
+            stroke-linecap: round;
+            transition: transform 0.2s ease;
+        }
+        /* X 주변을 조금 넉넉하게 눌러도 닫히도록 누르는 범위를 넓혀요 */
+        .menu-close {
+            position: relative;
+        }
+        .menu-close::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+        }
+        .menu-close:hover .menu-x {
+            transform: rotate(90deg); /* 마우스를 올리면 살짝 돌아요 */
+        }
+        /* 메뉴판 안의 손글씨 링크 (홈 화면 로고 아래 링크와 같은 모양, 메뉴판에 맞게 조금 작게) */
+        .menu-links {
+            display: flex;
+            flex-direction: column; /* 세로로 나란히 */
+            align-items: flex-start;
+            gap: 22px;              /* 링크 사이 간격 */
+        }
+        .menu-links a {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;               /* 바퀴와 글씨 사이 간격 */
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform-origin: left center;
+        }
+        .menu-links img { display: block; height: auto; }
+        .menu-links .wheel {
+            width: 12px;            /* 바퀴 크기 */
+            flex-shrink: 0;
+            margin-bottom: 4px;
+            transform: rotate(var(--wheel-angle, 0deg));
+        }
+        .menu-links a:nth-of-type(1) .wheel { --wheel-angle: -28deg; }
+        .menu-links a:nth-of-type(2) .wheel { --wheel-angle: 47deg; }
+        .menu-links a:nth-of-type(3) .wheel { --wheel-angle: 118deg; }
+        .menu-links a:nth-of-type(4) .wheel { --wheel-angle: 290deg; }
+        .menu-links a:nth-of-type(5) .wheel { --wheel-angle: 205deg; }
+        .menu-links a:nth-of-type(6) .wheel { --wheel-angle: 160deg; }
+        .menu-links .insta-text   { width: 172px; } /* 인스타 글씨 크기 */
+        .menu-links .email-text   { width: 146px; } /* 이메일 글씨 크기 */
+        .menu-links .aboutme-text { width: 88px; }  /* About Me 글씨 크기 */
+        .menu-links .mybike-text  { height: 25px; width: auto; margin-left: 8px; } /* My road / fixie bike 글씨 크기 */
+        .menu-links .bikehouse-img { width: 120px; margin-left: 4px; } /* BIKEHOUSE 그림 크기 */
+        .menu-links .bikehouse-link { align-items: center; }
+        /* 마우스를 올리거나 휴대폰에서 누르면 살짝 커지고 바퀴가 굴러가요 (홈 화면과 같아요) */
+        .menu-links a:hover,
+        .menu-links a.pop {
+            opacity: 0.6;
+            transform: scale(1.12);
+        }
+        .menu-links a:hover .wheel,
+        .menu-links a.pop .wheel {
+            animation: wheel-roll 0.9s linear infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .menu-links a:hover .wheel,
+            .menu-links a.pop .wheel { animation: none; }
         }
         /* 메뉴 목록 (세로로 정리) */
         .menu-list,
@@ -283,6 +357,15 @@
         .menu-toggle {
             z-index: 5;
         }
+        /* sUnz 로고를 가로 가운데에 놓아요 (칸 3개: 왼쪽 빈칸 | 로고 | 오른쪽 메뉴 버튼) */
+        header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+        header .brand { grid-column: 2; }
+        header .menu-toggle { grid-column: 3; justify-self: end; }
+        header .logo img { transform-origin: 50% 60%; } /* 커질 때도 가운데를 기준으로 */
         /* 로고 아래 손글씨 링크 (This is my instagram / This is my Email)
            로고 밑에 띄워 놓아서 아래 그림 위치는 그대로예요 */
         .brand .social-icons {
@@ -430,6 +513,70 @@
             height: auto;
             pointer-events: none;
         }
+        /* Click 손글씨 묶음 (크기·위치는 아래 "포스터 배치"에서 정해요) */
+        .click-label {
+            position: relative;
+            z-index: 3;
+        }
+        .click-label img {
+            display: block;
+            width: 100%;
+            max-width: none;
+            max-height: none;
+            height: auto;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        /* eyewear · jersey · shoes 글씨 위에 놓은 투명한 누르는 자리 */
+        .click-word {
+            position: absolute;
+            left: 12%;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* shoes 아래 소개 글 (Inter Tight) */
+        .click-label { container-type: inline-size; } /* 글씨 크기를 Click 그림 크기에 맞춰 같이 바꿔요 */
+        .click-top { position: relative; }
+        .home-gear-note {
+            margin: 17cqw 0 0 14%; /* 위 숫자(17cqw): shoes와 소개 글 사이 간격 (아래 주소와의 간격과 같게 맞췄어요) */
+            width: 86%;     /* 한 줄 길이 (Click 그림 오른쪽 끝까지) */
+            font-family: 'Inter Tight', 'Inter', sans-serif;
+            font-size: 5.4cqw; /* 글씨 크기 (Click 그림 너비 기준, 숫자를 키우면 커져요) */
+            font-weight: 400;
+            line-height: 1.35;
+            color: #111111;
+        }
+        .click-eyewear { top: 54%; height: 12%; width: 64%; }
+        .click-jersey  { top: 70%; height: 14%; width: 46%; }
+        .click-shoes   { top: 88%; height: 12%; width: 40%; }
+        /* Click 옆 "the drawing" 손글씨: Click 글씨 오른쪽, 그림 쪽 빈자리에 놓아요 */
+        .click-label img.the-drawing {
+            position: absolute;
+            left: 103%;     /* Click 오른쪽 끝 바로 옆 (숫자를 키우면 오른쪽으로) */
+            top: 23%;       /* 세로 위치: Click 글씨 아랫부분에 맞춰요 (숫자를 키우면 아래로) */
+            width: 70%;     /* 크기 (Click 묶음 너비 기준) */
+        }
+        @media (max-width: 700px) {
+            /* 휴대폰: 오른쪽 자리가 좁아서 Click 바로 아래 오른쪽에 놓아요 */
+            .click-label img.the-drawing { left: 103%; top: 20%; width: 66%; } /* 휴대폰도 Click 옆에 */
+        }
+        /* 사이트 주소 · 이메일 (Inter Tight) */
+        .home-contact {
+            margin: 18cqw 0 0 14%; /* 위 숫자: 소개 글과 주소 사이 간격 */
+            font-family: 'Inter Tight', 'Inter', sans-serif;
+            font-size: 5.4cqw;     /* 소개 글과 같은 크기 */
+            line-height: 1.5;
+            color: #111111;
+        }
+        #view-home .home-contact { font-size: max(8.5px, 5.4cqw); }
+        .home-contact a { color: inherit; text-decoration: none; }
+        .home-contact a:hover { text-decoration: underline; }
+        /* 사이트 주소 · 이메일 손글씨 */
+        .click-label img.click-contact {
+            width: 52%;     /* 글씨 크기 (숫자를 줄이면 작아져요) */
+            margin: 18cqw 0 0 14%; /* 위 숫자(18cqw): 소개 글과 주소 사이 간격 (숫자를 키우면 주소가 더 아래로) */
+        }
         /* 그림에서 따로 떼어 낸 부분들 (헬멧, 안경, 상의, 신발)
            - 원래 자리에 딱 맞게 얹어 두었어요 (left/top/width 숫자는 바꾸지 마세요)
            - 마우스를 올리면(휴대폰은 누르면) 그 부분만 살짝 커지고, 누르면 각자 페이지로 가요
@@ -570,7 +717,7 @@
                 font-size: 46px;
             }
             header .logo img {
-                height: 56px;
+                height: 42px; /* 휴대폰 로고 크기 (원래 56px) */
             }
             /* 휴대폰에서는 그림을 화면 끝까지 조금 더 넓게, 인스타·이메일 글씨 아래에서 시작해요 */
             .home-drawing { margin-top: 135px; padding: 0 6px; } /* 링크가 6개라 그림을 조금 더 아래에서 시작해요 */
@@ -791,7 +938,7 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr)); /* 한 줄에 칸 2개 (1로 바꾸면 한 줄에 하나씩) */
             gap: 50px 60px;               /* 칸 사이 간격 (위아래, 좌우) */
-            margin-top: 30px;             /* 선과 칸 사이 간격 */
+            margin-top: 10px;             /* 위 그림(Bike house)과 칸 사이 간격 (숫자를 줄이면 칸이 더 위로 올라가요) */
         }
         .house-card { min-width: 0; }
         .house-label {
@@ -808,6 +955,20 @@
             box-sizing: border-box;
             overflow: hidden;
         }
+        /* 칸 안에 넣은 그림: 칸 가운데에 맞춰요 */
+        .house-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .house-box .house-art {
+            display: block;
+            width: 110%;         /* 칸 안에서 그림 크기: 땅 선 끝이 칸 테두리에 닿을 만큼 (숫자를 키우면 커져요) */
+            max-width: none;
+            flex-shrink: 0;
+            object-fit: contain;
+            height: auto;
+        }
         /* HALO Wattbike 칸: 직접 그린 이름 그림과 네모 칸 (bikehouse-halo-label.png, bikehouse-halo-box.png) */
         .house-card-halo .house-label {
             width: 54.4%;                 /* 이름 글씨 크기: 칸 너비 기준 (TREK 글씨와 같은 높이) */
@@ -817,22 +978,235 @@
             aspect-ratio: 1904 / 843;     /* TREK 칸과 같은 크기, 같은 선 굵기 */
             background-image: url('bikehouse-halo-box.png');
         }
+        /* TREK 칸: 네모 칸과 자전거 풍경이 한 장에 같이 그려진 새 그림 (bikehouse-trek-box2.png) */
+        .house-card-trek .house-box {
+            aspect-ratio: 1367 / 603;     /* 새 그림의 가로:세로 비율 */
+            background-image: url('bikehouse-trek-box2-nobike.png'); /* 자전거만 뺀 그림 (자전거는 아래 trek-bike-breathe로 따로 올려요) */
+        }
+        /* TREK 칸 자전거: 원래 자리에 그대로 올리고, 땅에 닿은 바퀴 쪽을 기준으로 숨 쉬듯 커졌다 작아졌다 해요 */
+        .trek-bike-link {        /* 자전거를 누르면 Trek 마돈 페이지가 새 탭으로 열려요 */
+            position: absolute;
+            left: 13.7527%;      /* 원래 그림 속 자전거 자리 (바꾸지 마세요) */
+            top: 53.068%;
+            width: 22.3116%;
+            z-index: 2;
+            transform-origin: 50% 95%;
+            transition: transform .3s ease;
+        }
+        .trek-bike-link:hover { transform: scale(1.15); }   /* 마우스 올렸을 때 아래 칸 그림들처럼 커져요 */
+        .trek-bike-breathe {
+            display: block;
+            width: 100%;
+            height: auto;
+            transform-origin: 50% 95%;
+            animation: gear-pulse 2.4s ease-in-out infinite;  /* 아래 칸 그림들과 같은 움직임 */
+        }
+        @media (prefers-reduced-motion: reduce) { .trek-bike-breathe { animation: none; } }
+        .visually-hidden-trek { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .house-label-hidden { display: none; } /* 이름 그림을 빼고 그 자리만큼 칸을 위로 올려요 */
+        /* TREK 칸 안 글씨: 큰 TREK(Londrina Solid) + 그 아래 모델명(Amatic SC) */
+        .house-box { container-type: inline-size; } /* 글씨 크기를 칸 너비에 맞춰 같이 바꿔요 */
+        .house-text {
+            position: absolute;
+            left: 50%;     /* 칸 가로 가운데 */
+            transform: translateX(-50%);
+            text-align: center;
+            white-space: nowrap;
+            top: 9%;       /* 칸 위쪽에서의 거리 (숫자를 키우면 아래로 내려가요) */
+            z-index: 1;
+            line-height: 1;
+            color: #111111;
+        }
+        .house-brand {
+            margin: 0;
+            font-family: 'Londrina Solid', sans-serif;
+            font-weight: 900;
+            font-size: 7cqw;          /* TREK 글씨 크기 (칸 너비 기준, 숫자를 키우면 커져요) */
+            letter-spacing: 0.1em;    /* 글자 사이 간격 */
+        }
+        .house-model {
+            margin: 0.35em 0 0 0;
+            font-family: 'Amatic SC', cursive;
+            font-weight: 700;
+            font-size: 4.2cqw;        /* 모델명 글씨 크기 */
+            letter-spacing: 0.04em;
+        }
         @media (max-width: 899px) {
             .house-cards { grid-template-columns: minmax(0, 1fr); gap: 80px; } /* 휴대폰: 한 줄에 칸 하나씩 크게 */
+        }
+        /* BIKEHOUSE 페이지: TREK · HALO 아래 선주가 직접 그린 칸 3개 (bikehouse-handbox-1/2/3.png), 나란히 딱 붙어 있어요 */
+        .house-row3 {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr)); /* 한 줄에 칸 3개 */
+            gap: 30px;                    /* 칸 사이 간격 (숫자를 키우면 더 벌어져요) */
+            margin-top: -10px;            /* 위 TREK · HALO 칸과의 간격 (페이지 기본 간격 60px에서 10px 줄였어요, 숫자를 키우면 내려가요) */
+        }
+        .house-box3 {
+            position: relative;
+            aspect-ratio: 667 / 420;      /* 그린 칸의 가로:세로 비율 (세 칸 높이를 맞췄어요) */
+            background: url('bikehouse-handbox-1.png') center / 100% 100% no-repeat;
+            padding: 6%;
+            box-sizing: border-box;
+            container-type: inline-size;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .house-box3 + .house-box3 { margin-left: 0; } /* 칸끼리 겹치지 않게 (간격은 위 gap 숫자로 바꿔요) */
+        .house-box3-b { background-image: url('bikehouse-handbox-2.png'); }
+        /* 칸 3개 안 그림: 칸 왼쪽에 놓아요 (left = 왼쪽 여백, width = 그림 자리 너비, 숫자를 키우면 그림이 커져요) */
+        .gear-art {
+            position: absolute;
+            left: 6%;
+            top: 24%;            /* 제목 아래부터 */
+            bottom: 8%;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3%;
+        }
+        .gear-art img { display: block; max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; }
+        /* PISSEI 칸: 제목 아래 두 줄 (왼쪽 옷 그림 + 오른쪽 이름) */
+        .pissei-rows {
+            position: absolute;
+            left: 6%;
+            right: 5%;
+            top: 24%;            /* 제목 아래부터 */
+            bottom: 6%;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 3%;
+        }
+        .pissei-row {
+            display: grid;
+            grid-template-columns: 34% 1fr;   /* 그림 자리 : 글씨 자리 */
+            align-items: center;
+            min-height: 0;
+        }
+        .pissei-row img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+        .pissei-note {
+            margin: 0;
+            text-align: center;
+            font-family: 'Amatic SC', cursive;
+            font-weight: 700;
+            font-size: 6cqw;     /* ALBA OPTICS 칸 글씨와 같은 크기 */
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+            color: #111111;
+        }
+        /* 칸 3개 안 그림 옆 글씨: TREK 아래 모델명(madone sl5 gen 8)과 같은 Amatic SC 글씨체 */
+        .house-gear-note {
+            position: absolute;
+            left: 50%;           /* 그림 오른쪽부터 */
+            right: 5%;
+            top: 24%;            /* 제목 아래, 그림과 같은 높이 */
+            bottom: 8%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Amatic SC', cursive;
+            font-weight: 700;
+            font-size: 6cqw;     /* 글씨 크기: TREK 아래 모델명과 같은 크기로 보이게 */
+            letter-spacing: 0.04em;
+            line-height: 1.25;
+            color: #111111;
+        }
+        /* 칸 3개 안 그림 링크: 그림을 누르면 판매 페이지가 새 탭으로 열려요 */
+        .gear-link { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; min-height: 0; }
+        /* 칸 3개 안 그림: 계속 살짝 커졌다 작아졌다 해요 + 마우스를 올리면 더 커져요 */
+        .gear-link { transition: transform .3s ease; }
+        .gear-link:hover { transform: scale(1.15); }   /* 마우스 올렸을 때 크기 (1.15 = 15% 크게) */
+        .gear-link img { animation: gear-pulse 2.4s ease-in-out infinite; } /* 2.4s = 한 번 커졌다 작아지는 시간 */
+        .pissei-row:nth-child(2) .gear-link img { animation-delay: -0.6s; } /* 그림마다 박자를 조금씩 엇갈리게 */
+        .house-box3-b .gear-link img { animation-delay: -1.2s; }
+        .house-box3-c .gear-link img { animation-delay: -1.8s; }
+        @keyframes gear-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }              /* 가장 커질 때 크기 (1.08 = 8% 크게) */
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .gear-link img { animation: none; }
+        }
+        .gear-art > .gear-link { height: auto; max-height: 100%; } /* 누르는 자리를 그림 크기만큼만 */
+        .house-box3 .house-brand { font-size: 10cqw; } /* 칸 3개 제목 크기: TREK · HALO 글씨와 같은 크기로 보이게 (칸이 더 작아서 숫자가 커요) */
+        .house-box3-c { background-image: url('bikehouse-handbox-3.png'); }
+        @media (max-width: 899px) {
+            .house-row3 { grid-template-columns: minmax(0, 1fr); margin-top: 20px; } /* 휴대폰: 위아래로 붙여서 쌓여요 */
+            .house-box3 + .house-box3 { margin-left: 0; margin-top: 0; }
+            .pissei-note { font-size: 4.2cqw; }
+            .house-gear-note { font-size: 4.2cqw; } /* 휴대폰: TREK 아래 모델명과 같은 비율 */
+            .house-box3 .house-brand { font-size: 7cqw; } /* 휴대폰: 칸이 넓어져서 TREK 글씨와 같은 비율로 줄여요 */
         }
         /* BIKEHOUSE 페이지 제목 그림: 가운데 선 위에 작게 올려놔요 */
         .bikes-squiggle.has-logo { position: relative; }
         .bikehouse-title {
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%); /* 가로 가운데 */
+            left: 60px;    /* 로고가 가운데로 가서 겹치지 않게 선의 왼쪽 끝 위에 놓았어요 (휴대폰은 20px) */
             bottom: 24px;  /* 선에서 살짝 위로 띄워요 (숫자를 키우면 더 위로, 12px이면 선에 닿아요) */
             width: 120px;  /* BIKEHOUSE 그림 크기 */
             height: auto;
             display: block;
         }
+        /* BIKEHOUSE 페이지: 로고 아래 가운데 손글씨 인사말 */
+        .bikehouse-message {
+            text-align: center;
+            margin-top: 6px;   /* 로고와 인사말 사이 간격 (숫자를 키우면 아래로) */
+            padding: 0 20px;
+        }
+        .bikehouse-message img {
+            display: inline-block;
+            width: 460px;      /* 인사말 크기 (숫자를 키우면 커져요) */
+            max-width: 82vw;   /* 휴대폰에서는 화면 너비에 맞춰 줄어요 */
+            height: auto;
+        }
+        /* BIKEHOUSE 페이지: 지붕 그림 (아래 칸들과 같은 폭으로 가운데) */
+        .bikehouse-roof {
+            text-align: center;
+            margin-top: 34px;  /* 인사말과 지붕 사이 간격 (숫자를 키우면 아래로) */
+            padding: 0 60px;   /* 아래 칸들과 같은 좌우 여백 */
+        }
+        .bikehouse-roof img {
+            display: inline-block;
+            width: 100%;
+            max-width: 1160px; /* 지붕 최대 크기 */
+            height: auto;
+        }
         @media (max-width: 900px) {
-            .bikehouse-title { width: 80px; } /* 휴대폰에서 그림 크기 */
+            .bikehouse-roof { padding: 0 20px; margin-top: 22px; }
+        }
+        /* eyewear 페이지: 로고 아래 가운데 손글씨 제목 */
+        .eyewear-title {
+            text-align: center;
+            margin-top: 10px;  /* 로고와 제목 사이 간격 (숫자를 키우면 아래로) */
+            padding: 0 20px;
+            min-height: 40vh;
+        }
+        .eyewear-title img {
+            display: inline-block;
+            width: 420px;      /* 제목 크기 (숫자를 키우면 커져요) */
+            max-width: 78vw;
+            height: auto;
+        }
+        /* road bike · fixie bike 손글씨 제목: 선 위 왼쪽 끝 (BIKEHOUSE 페이지와 같은 자리) */
+        .line-title {
+            position: absolute;
+            left: 60px;
+            bottom: 24px;  /* 선에서 살짝 위로 띄워요 */
+            height: 34px;  /* 제목 글씨 크기 */
+            width: auto;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .line-title { left: 20px; height: 24px; }
+        }
+        @media (max-width: 900px) {
+            .bikehouse-title { width: 80px; left: 20px; } /* 휴대폰에서 그림 크기 */
         }
         /* bikes 본문: 사진 + 문구가 짝을 이루는 3단 구성 */
         .bikes-container {
@@ -931,10 +1305,78 @@
             align-items: center;
             justify-content: center;
         }
+        .about-container {
+            flex-direction: column; /* 이름 아래에 인스타·이메일 링크 */
+            gap: 36px;              /* 이름과 링크 사이 간격 */
+        }
+        .about-links { align-items: flex-start; }
         .about-container .name {
             font-size: 16px;
             letter-spacing: 1px;
             color: #111111;
+        }
+        /* 처음 들어왔을 때 안경 → 상의 → 신발이 차례로 한 번씩 들썩여요 (누를 수 있다는 힌트) */
+        .part.hint img {
+            animation: part-hint 0.8s ease-in-out; /* 한 번 들썩이는 시간 (숫자가 클수록 천천히) */
+        }
+        @keyframes part-hint {
+            0%   { transform: scale(1) translateY(0); }
+            30%  { transform: scale(var(--grow, 1.15)) translateY(-6%); }
+            55%  { transform: scale(0.97) translateY(0); }
+            75%  { transform: scale(1.05) translateY(-2%); }
+            100% { transform: scale(1) translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .part.hint img { animation: none; }
+        }
+        /* ===== 홈 포스터 배치: 왼쪽에 큰 글씨, 오른쪽에 작은 그림 ===== */
+        @media (min-width: 701px) {
+            #view-home .home-drawing {
+                display: flex;
+                justify-content: center; /* 글씨와 그림을 가운데로 모아요 */
+                align-items: flex-start;
+                gap: 5vw;            /* 글씨와 그림 사이 간격 (숫자를 줄이면 더 붙어요) */
+                margin-top: -10px;   /* 로고와 포스터 사이 간격 */
+                padding: 0 60px;     /* 로고·메뉴 버튼과 같은 좌우 여백 */
+            }
+            #view-home .click-label {
+                width: 23vw;         /* 왼쪽 글씨 크기 (숫자를 키우면 커져요) */
+                max-width: 380px;
+                flex-shrink: 0;
+                margin-top: 0;       /* 글씨 시작 높이 (숫자를 키우면 아래로) */
+            }
+            #view-home .drawing-frame > img:not(.oh-text) {
+                width: 40vw;         /* 그림 크기 (숫자를 줄이면 작아져요, 원래 59vw) */
+                max-height: none;
+            }
+            #view-home .drawing-frame {
+                margin-top: 4vw;     /* 그림 시작 높이 (숫자를 키우면 아래로) */
+            }
+        }
+        @media (max-width: 700px) {
+            /* 휴대폰: 한 화면에 글씨와 그림이 같이 보이도록 컴퓨터처럼 왼쪽 글씨, 오른쪽 그림으로 나란히 놓아요 */
+            #view-home .home-drawing {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 3vw;            /* 글씨와 그림 사이 간격 */
+                margin-top: 6px;     /* 로고와 포스터 사이 간격 */
+                padding: 0 12px;
+            }
+            #view-home .click-label {
+                width: 43vw;         /* 휴대폰에서 글씨 크기 */
+                flex-shrink: 0;
+                margin-top: 2vw;
+            }
+            #view-home .drawing-frame {
+                margin-top: 12vw;    /* 그림 시작 높이 (숫자를 키우면 아래로) */
+            }
+            #view-home .drawing-frame > img:not(.oh-text) {
+                width: 49vw;         /* 휴대폰에서 그림 크기 */
+                max-height: none;
+            }
+            #view-home .home-gear-note { font-size: max(8.5px, 5.4cqw); }
         }
     </style>
 </head>
@@ -946,20 +1388,7 @@
             <a href="#" class="logo" onclick="openHome(this); return false;">
                 <img src="sunz-logo-bold.png" alt="sunz">
             </a>
-            <!-- 로고 바로 아래에 세로로 놓은 손글씨 링크 (insta-text.png, email-text.png 파일이 index.html과 같은 폴더에 있어야 해요) -->
-            <div class="social-icons">
-                <!-- 글씨 앞의 빨간 바퀴는 직접 그린 그림이에요 (wheel.png) -->
-                <a href="https://www.instagram.com/sssunz_/" target="_blank" rel="noopener" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="insta-text" src="insta-text.png" alt="This is my instagram"></a>
-                <a href="mailto:info@sssunz.com" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="email-text" src="email-text.png" alt="This is my Email"></a>
-                <!-- About Me: 직접 쓴 손글씨 (aboutme-text.png). 누르면 about me 페이지로 가요 -->
-                <a href="#" data-view="about" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="aboutme-text" src="aboutme-text.png" alt="About Me"></a>
-                <!-- My road bike: 누르면 원래 my bike 페이지(Road Bike)로 가요 (myroadbike-text.png) -->
-                <a href="#" data-view="bikes" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="mybike-text" src="myroadbike-text.png" alt="My road bike"></a>
-                <!-- My fixie bike: 누르면 fixie 페이지로 가요 (myfixiebike-text.png) -->
-                <a href="#" data-view="fixie" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="mybike-text" src="myfixiebike-text.png" alt="My fixie bike"></a>
-                <!-- BIKEHOUSE: 직접 그린 집 + 자전거 그림 (bikehouse.png). 누르면 BIKEHOUSE 페이지로 가요 -->
-                <a href="#" class="bikehouse-link" data-view="bikehouse" onclick="socialClick(this, event); return false;"><img class="wheel" src="wheel.png" alt=""><img class="bikehouse-img" src="bikehouse.png" alt="BIKEHOUSE"></a>
-            </div>
+            <!-- 로고 아래 손글씨 링크 6개(인스타·이메일·About Me·My road bike·My fixie bike·BIKEHOUSE)는 오른쪽 메뉴판으로 옮겼어요 -->
         </div>
         <!-- 오른쪽 위 메뉴 버튼 -->
         <button class="menu-toggle" type="button" aria-label="메뉴 열기" onclick="openMenu()">
@@ -983,31 +1412,24 @@
 
     <!-- 오른쪽에서 열리는 메뉴판 -->
     <aside class="menu-panel" id="menu-panel">
-        <button class="menu-close" type="button" onclick="closeMenu()">close</button>
+        <button class="menu-close" type="button" aria-label="메뉴 닫기" onclick="closeMenu()">
+            <!-- 메뉴 줄 세 개처럼 손으로 그은 듯한 X 표시 -->
+            <svg class="menu-x" viewBox="0 0 20 20" aria-hidden="true">
+                <g filter="url(#menu-pencil)">
+                    <path d="M2.4 2.1 Q10.3 9.6 17.8 17.6"/>
+                    <path d="M17.4 2.6 Q9.6 10.4 2.2 17.9"/>
+                </g>
+            </svg>
+        </button>
         <nav>
-            <!-- 메뉴 글씨는 직접 쓴 손글씨 그림이에요 (menu-home.png, aboutme-text.png, menu-bikes.png, menu-road.png, menu-fixie.png, bikehouse-text.png) -->
-            <ul class="menu-list">
-                <li>
-                    <a href="#" id="nav-home" onclick="showView('home'); return false;"><img class="menu-word menu-word-main menu-word-home" src="menu-home.png" alt="home"></a>
-                </li>
-                <!-- about me: 직접 쓴 About Me 손글씨 (aboutme-text.png) -->
-                <li>
-                    <a href="#" id="nav-about" onclick="showView('about'); return false;"><img class="menu-word menu-word-main menu-word-about" src="aboutme-text.png" alt="about me"></a>
-                </li>
-                <!-- bikes: 누르면 아래 항목이 펼쳐져요 -->
-                <li class="has-sub open"> <!-- road, fixie가 늘 펼쳐져 있어요 -->
-                    <button type="button" class="submenu-toggle" id="nav-bikes" onclick="showView('bikes'); return false;"><img class="menu-word menu-word-main" src="menu-bikes.png" alt="bikes"></button>
-                    <ul class="submenu">
-                        <!-- road: 홈의 My BIKE와 같은 페이지(로드 바이크 페이지)로 가요 -->
-                        <li><a href="#" id="nav-road" onclick="showView('bikes'); return false;"><img class="menu-word menu-word-sub" src="menu-road.png" alt="road"></a></li>
-                        <li><a href="#" id="nav-fixie" onclick="showView('fixie'); return false;"><img class="menu-word menu-word-sub" src="menu-fixie.png" alt="fixie"></a></li>
-                    </ul>
-                </li>
-                <!-- bikehouse: 직접 쓴 BIKEHOUSE 글씨 (bikehouse-text.png), bikes와 같은 큰 글씨 -->
-                <li>
-                    <a href="#" id="nav-bikehouse" onclick="showView('bikehouse'); return false;"><img class="menu-word menu-word-main menu-word-bikehouse" src="bikehouse-text.png" alt="bikehouse"></a>
-                </li>
-            </ul>
+            <!-- 메뉴판 안의 링크: 홈 화면 로고 아래에 있는 손글씨 링크와 똑같아요 (바퀴 + 손글씨 그림) -->
+            <div class="menu-links">
+                <!-- 순서: BIKEHOUSE → About Me → My road bike → My fixie bike (인스타·이메일은 About Me 페이지로 옮겼어요) -->
+                <a href="#" id="nav-bikehouse" class="bikehouse-link" data-view="bikehouse" onclick="menuLinkClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="menu-word bikehouse-img" src="bikehouse.png" alt="BIKEHOUSE"></a>
+                <a href="#" id="nav-about" data-view="about" onclick="menuLinkClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="menu-word aboutme-text" src="aboutme-text.png" alt="About Me"></a>
+                <a href="#" id="nav-bikes" data-view="bikes" onclick="menuLinkClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="menu-word mybike-text" src="myroadbike-text.png" alt="My road bike"></a>
+                <a href="#" id="nav-fixie" data-view="fixie" onclick="menuLinkClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="menu-word mybike-text" src="myfixiebike-text.png" alt="My fixie bike"></a>
+            </div>
         </nav>
     </aside>
     <!-- 본문 영역 -->
@@ -1018,6 +1440,29 @@
         </div>
         <!-- 홈 배경 그림 (home-drawing.png 파일이 index.html과 같은 폴더에 있어야 해요) -->
         <div class="home-drawing">
+            <!-- 포스터 느낌: 왼쪽에 크게 놓은 Click 손글씨 묶음 (eyewear-label.png), 오른쪽에 작게 놓은 그림.
+                 휴대폰에서는 Click 글씨가 위, 그림이 아래로 가요.
+                 eyewear · jersey · shoes 글씨를 누르면 각자 페이지로 바로 가요 -->
+            <div class="click-label">
+                <!-- 위: Click · eyewear · jersey · shoes 손글씨 (eyewear-label-top.png) -->
+                <div class="click-top">
+                    <img src="eyewear-label-top.png" alt="Click: eyewear, jersey, shoes" draggable="false">
+                    <a href="#" class="click-word click-eyewear" onclick="showView('gear-eyewear'); return false;" aria-label="eyewear 페이지로 가기"></a>
+                    <a href="#" class="click-word click-jersey" onclick="showView('gear-top'); return false;" aria-label="jersey 페이지로 가기"></a>
+                    <a href="#" class="click-word click-shoes" onclick="showView('gear-shoes'); return false;" aria-label="shoes 페이지로 가기"></a>
+                    <!-- Click 옆 손글씨 "the drawing" + 그림 쪽을 가리키는 화살표 (the-drawing.png) -->
+                    <img class="the-drawing" src="the-drawing.png" alt="the drawing" draggable="false">
+                </div>
+                <!-- shoes 아래 한 줄 소개 (Inter Tight 글씨) -->
+                <p class="home-gear-note">Everything here is gear I've actually used and worn myself.</p>
+                <!-- 아래: 사이트 주소 · 이메일 손글씨 (eyewear-contact.png) -->
+                <!-- 사이트 주소 · 이메일 (Inter Tight 글씨, 위 소개 글과 같은 글씨체) -->
+                <p class="home-contact"> <!-- 순서: 인스타그램 → 이메일 → 사이트 주소 -->
+                    <a href="https://www.instagram.com/sssunz_/" target="_blank" rel="noopener">@sssunz_</a><br>
+                    <a href="mailto:info@sssunz.com">info@sssunz.com</a><br>
+                    <a href="https://www.sssunz.com" target="_blank" rel="noopener">www.sssunz.com</a>
+                </p>
+            </div>
             <div class="drawing-frame">
                 <!-- 헬멧·안경·상의·신발을 지운 그림 (home-body.png) 위에 각 부분을 따로 얹어요.
                      helmet.png, eyes.png, shirt.png, shoes.png 모두 index.html과 같은 폴더에 있어야 해요 -->
@@ -1043,20 +1488,20 @@
     </div>
     <!-- bikes 화면: sunz 로고 아래에 손으로 그은 선 (아주 살짝만 구불거려요) -->
     <div id="view-bikes" class="view" style="display:none;">
-        <div class="bikes-squiggle" aria-hidden="true">
+        <div class="bikes-squiggle has-logo">
+            <!-- road bike 손글씨 제목: BIKEHOUSE처럼 선 위 왼쪽 끝에 놓았어요 -->
+            <img class="line-title" src="roadbike-text.png" alt="road bike">
             <svg viewBox="0 0 1400 28" preserveAspectRatio="xMinYMid slice">
                 <filter id="squiggle-pencil" x="-2%" y="-60%" width="104%" height="220%">
                     <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" result="n"/>
                     <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
-                <path filter="url(#squiggle-pencil)" d="M2.0 14.0 C11.4 13.8 38.5 12.8 58.4 13.0 C78.2 13.3 100.5 15.4 121.1 15.4 C141.6 15.4 165.8 13.1 181.7 13.1 C197.6 13.1 199.5 15.2 216.7 15.2 C233.9 15.3 262.3 13.4 284.7 13.4 C307.1 13.4 331.6 15.0 351.1 15.1 C370.7 15.1 384.6 13.7 402.0 13.7 C419.4 13.8 440.9 15.4 455.6 15.4 C470.3 15.4 477.0 13.7 490.1 13.7 C503.2 13.7 516.5 15.6 534.1 15.6 C551.7 15.5 575.0 13.7 595.7 13.6 C616.4 13.5 638.6 14.8 658.4 14.8 C678.2 14.8 699.5 13.4 714.6 13.4 C729.7 13.5 736.1 15.2 748.7 15.2 C761.3 15.1 771.7 13.3 790.2 13.2 C808.7 13.2 840.6 15.1 859.6 15.0 C878.6 14.9 887.7 12.6 904.0 12.5 C920.3 12.4 941.6 14.7 957.4 14.7 C973.2 14.7 982.1 12.4 998.8 12.4 C1015.5 12.4 1036.8 14.8 1057.6 14.8 C1078.4 14.9 1104.9 12.9 1123.8 12.8 C1142.7 12.7 1156.4 14.2 1170.8 14.2 C1185.2 14.2 1196.1 12.9 1210.1 13.0 C1224.1 13.0 1241.8 14.6 1254.9 14.6 C1268.1 14.5 1275.6 12.7 1289.0 12.6 C1302.4 12.6 1316.9 14.4 1335.2 14.5 C1353.5 14.5 1380.6 12.9 1398.7 12.9 C1416.8 13.0 1436.5 14.5 1444.0 14.8"/>
+                <!-- 로고 아래 긴 선은 지웠어요 (자리와 간격은 그대로 두고, 위 연필 효과는 TREK 아래 선이 계속 써요) -->
             </svg>
         </div>
         <!-- 화면을 세로로 반 나눈 느낌: 왼쪽 절반에 road bike 글씨와 사진이 들어가요 -->
         <div class="bikes-split">
             <div class="bikes-left">
-                <!-- 직접 쓴 road bike 손글씨 (roadbike-text.png) -->
-                <img class="roadbike-text" src="roadbike-text.png" alt="road bike">
                 <!-- 사진 자리: road-bike.jpg 파일을 index.html과 같은 폴더에 넣으면 여기에 보여요 -->
                 <div class="bikes-photo">
                     <img src="road-bike.jpg" alt="My Road bike"
@@ -1125,7 +1570,9 @@
     </div>
     <!-- fixie 화면: bikes(Road Bike) 페이지와 같은 모양이에요 -->
     <div id="view-fixie" class="view" style="display:none;">
-        <div class="bikes-squiggle" aria-hidden="true">
+        <div class="bikes-squiggle has-logo">
+            <!-- Fixie Bike 손글씨 제목: BIKEHOUSE처럼 선 위 왼쪽 끝에 놓았어요 -->
+            <img class="line-title" src="fixiebike-text.png" alt="Fixie Bike">
             <svg viewBox="0 0 1400 28" preserveAspectRatio="xMinYMid slice">
                 <filter id="squiggle-pencil-fixie" x="-2%" y="-60%" width="104%" height="220%">
                     <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" result="n"/>
@@ -1136,8 +1583,6 @@
         </div>
         <div class="bikes-split">
             <div class="bikes-left">
-                <!-- 직접 쓴 Fixie Bike 손글씨 (fixiebike-text.png) -->
-                <img class="roadbike-text" src="fixiebike-text.png" alt="Fixie Bike">
                 <!-- 사진 자리: fixie-bike.jpg 파일을 index.html과 같은 폴더에 넣으면 여기에 보여요 -->
                 <div class="bikes-photo">
                     <img src="fixie-bike.jpg" alt="My Fixie bike"
@@ -1149,96 +1594,125 @@
     </div>
     <!-- BIKEHOUSE 화면: 선주 님이 구상한 내용이 오면 채워요 -->
     <div id="view-bikehouse" class="view" style="display:none;">
-        <div class="bikes-squiggle has-logo">
-            <!-- 직접 그린 BIKEHOUSE 그림 (bikehouse.png): 가운데 선 위에 작게 -->
-            <img class="bikehouse-title" src="bikehouse.png" alt="BIKEHOUSE">
-            <svg viewBox="0 0 1400 28" preserveAspectRatio="xMinYMid slice" aria-hidden="true">
-                <filter id="squiggle-pencil-house" x="-2%" y="-60%" width="104%" height="220%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" result="n"/>
-                    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
-                </filter>
-                <path filter="url(#squiggle-pencil-house)" d="M2.0 14.0 C11.4 13.8 38.5 12.8 58.4 13.0 C78.2 13.3 100.5 15.4 121.1 15.4 C141.6 15.4 165.8 13.1 181.7 13.1 C197.6 13.1 199.5 15.2 216.7 15.2 C233.9 15.3 262.3 13.4 284.7 13.4 C307.1 13.4 331.6 15.0 351.1 15.1 C370.7 15.1 384.6 13.7 402.0 13.7 C419.4 13.8 440.9 15.4 455.6 15.4 C470.3 15.4 477.0 13.7 490.1 13.7 C503.2 13.7 516.5 15.6 534.1 15.6 C551.7 15.5 575.0 13.7 595.7 13.6 C616.4 13.5 638.6 14.8 658.4 14.8 C678.2 14.8 699.5 13.4 714.6 13.4 C729.7 13.5 736.1 15.2 748.7 15.2 C761.3 15.1 771.7 13.3 790.2 13.2 C808.7 13.2 840.6 15.1 859.6 15.0 C878.6 14.9 887.7 12.6 904.0 12.5 C920.3 12.4 941.6 14.7 957.4 14.7 C973.2 14.7 982.1 12.4 998.8 12.4 C1015.5 12.4 1036.8 14.8 1057.6 14.8 C1078.4 14.9 1104.9 12.9 1123.8 12.8 C1142.7 12.7 1156.4 14.2 1170.8 14.2 C1185.2 14.2 1196.1 12.9 1210.1 13.0 C1224.1 13.0 1241.8 14.6 1254.9 14.6 C1268.1 14.5 1275.6 12.7 1289.0 12.6 C1302.4 12.6 1316.9 14.4 1335.2 14.5 C1353.5 14.5 1380.6 12.9 1398.7 12.9 C1416.8 13.0 1436.5 14.5 1444.0 14.8"/>
-            </svg>
+        <!-- sUnz 로고 바로 아래 가운데 손글씨 인사말 (bikehouse-grateful.png) -->
+        <div class="bikehouse-message">
+            <img src="bikehouse-grateful.png" alt="Grateful for your support and love in 2026. See you in 2027!">
+        </div>
+        <!-- 인사말 아래 Bike House 지붕 그림 (bikehouse-roof.png): 아래 TREK · HALO 칸이 나중에 집 창문처럼 들어가요 -->
+        <div class="bikehouse-roof">
+            <img src="bikehouse-roof.png" alt="Bike House">
         </div>
         <div class="bikes-split">
             <!-- 네모난 칸 모음: 칸을 늘리려면 아래 house-card 묶음(<div class="house-card"> ~ </div>)을 통째로 복사해서 붙여넣고,
                  위의 이름 그림(src)과 칸 안의 내용만 바꾸면 돼요 -->
             <div class="house-cards">
                 <!-- 칸 1: TREK -->
-                <div class="house-card">
-                    <img class="house-label" src="bikehouse-trek-label.png" alt="TREK">
+                <div class="house-card house-card-trek">
+                    <!-- 손글씨 TREK 이름은 숨겼어요 (자리는 남겨서 HALO 칸과 높이가 맞아요. 다시 보이게 하려면 house-label-hidden을 지우세요) -->
+                    <img class="house-label house-label-hidden" src="bikehouse-trek-label.png" alt="" aria-hidden="true">
                     <div class="house-box">
-                        <!-- 여기에 칸 안에 들어갈 내용(사진, 글)을 넣으면 돼요 -->
+                        <!-- TREK 칸 안 그림: 로드 자전거와 동네 풍경 (bikehouse-trek-bike.png) -->
+                        <!-- TREK 칸 안 글씨 -->
+                        <div class="house-text">
+                            <p class="house-brand">TREK</p>
+                            <p class="house-model">madone sl5 gen 8</p>
+                        </div>
+                        <!-- 예전 칸 안 그림(bikehouse-trek-bike.png)은 뺐어요: 새 그림(bikehouse-trek-box2.png)에 네모 칸과 자전거 풍경이 같이 들어 있어요 -->
+                        <span class="visually-hidden-trek">Road bike</span>
+                        <!-- TREK 칸 자전거만 따로 잘라낸 그림: 숨 쉬듯 커졌다 작아졌다 해요 (배경은 자전거를 뺀 bikehouse-trek-box2-nobike.png) -->
+                        <a class="trek-bike-link" href="https://www.trekbikes.com/kr/ko_KR/자전거/로드-자전거/퍼포먼스-로드-자전거/마돈/f/F213/%25eb%25a7%2588%25eb%258f%2588-sl-5-8%25ec%2584%25b8%25eb%258c%2580/46218/5319897" target="_blank" rel="noopener"><img class="trek-bike-breathe" src="bikehouse-trek-bike-only.png" alt="Trek Madone SL 5 Gen 8"></a>
                     </div>
                 </div>
                 <!-- 칸 2: HALO Wattbike (컴퓨터에서는 TREK 옆, 휴대폰에서는 TREK 아래) -->
                 <div class="house-card house-card-halo">
-                    <img class="house-label" src="bikehouse-halo-label.png" alt="HALO WATTBIKE">
+                    <!-- 손글씨 HALO WATTBIKE 이름은 숨겼어요 (자리는 남겨서 TREK 칸과 높이가 맞아요. 다시 보이게 하려면 house-label-hidden을 지우세요) -->
+                    <img class="house-label house-label-hidden" src="bikehouse-halo-label.png" alt="" aria-hidden="true">
                     <div class="house-box">
-                        <!-- 여기에 칸 안에 들어갈 내용(사진, 글)을 넣으면 돼요 -->
+                        <!-- HALO 칸 안 글씨 (TREK 칸과 같은 모양) -->
+                        <div class="house-text">
+                            <p class="house-brand">HALO</p>
+                            <p class="house-model">wattbike</p>
+                        </div>
+                        <!-- 여기에 칸 안에 들어갈 내용(사진, 그림)을 더 넣으면 돼요 -->
                     </div>
+                </div>
+            </div>
+            <!-- 새 칸 3개: 나란히 붙어 있어요 (휴대폰에서는 위아래로). 각 칸 안에 내용을 넣으면 돼요 -->
+            <div class="house-row3">
+                <div class="house-box3 house-box3-a">
+                    <!-- 칸 1: PISSEI -->
+                    <div class="house-text">
+                        <p class="house-brand">PISSEI</p>
+                    </div>
+                    <!-- PISSEI 옷 그림 2개: 제목 아래 위아래 두 줄, 각 줄 왼쪽에 그림 · 오른쪽에 이름 -->
+                    <div class="pissei-rows">
+                        <div class="pissei-row">
+                            <a class="gear-link" href="https://broucompany.com/25ss/?idx=1334" target="_blank" rel="noopener"><img src="bikehouse-pissei-1.png" alt="Pissei 2025 Sanremo jersey, white sketchbook"></a>
+                            <p class="pissei-note">pissei 2025<br>sanremo jersey<br>(white sketchbook)</p>
+                        </div>
+                        <div class="pissei-row">
+                            <a class="gear-link" href="https://broucompany.com/25ss/?idx=1216" target="_blank" rel="noopener"><img src="bikehouse-pissei-2.png" alt="Pissei 2025 Sanremo jersey, orange dot"></a>
+                            <p class="pissei-note">pissei 2025<br>sanremo jersey<br>(orange dot)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="house-box3 house-box3-b">
+                    <!-- 칸 2: ALBA OPTICS -->
+                    <div class="house-text">
+                        <p class="house-brand">ALBA OPTICS</p>
+                    </div>
+                    <!-- ALBA OPTICS 선글라스 그림: 칸 왼쪽 -->
+                    <div class="gear-art">
+                        <a class="gear-link" href="https://www.albaopticskorea.com/delta/?idx=407" target="_blank" rel="noopener"><img src="bikehouse-alba-glasses.png" alt="Alba Optics sunglasses"></a>
+                    </div>
+                    <!-- ALBA OPTICS 선글라스 이름: 그림 오른쪽, TREK 아래 모델명과 같은 글씨체 (줄을 바꾸려면 <br>을 옮기면 돼요) -->
+                    <p class="house-gear-note">albaoptics delta<br>(fucsia ii /<br>f-lens flamingo)</p>
+                </div>
+                <div class="house-box3 house-box3-c">
+                    <!-- 칸 3: QUOC -->
+                    <div class="house-text">
+                        <p class="house-brand">QUOC</p>
+                    </div>
+                    <!-- QUOC 신발 그림: 칸 왼쪽 -->
+                    <div class="gear-art">
+                        <a class="gear-link" href="https://rubiworkshop.com/shoes/?idx=1229" target="_blank" rel="noopener"><img src="bikehouse-quoc-shoe.png" alt="Quoc cycling shoe"></a>
+                    </div>
+                    <!-- QUOC 신발 이름: 그림 오른쪽, ALBA OPTICS 칸 글씨와 같은 모양 -->
+                    <p class="house-gear-note">quoc<br>motion road shoes</p>
                 </div>
             </div>
         </div>
     </div>
     <!-- 안경 페이지: gear-eyewear.jpg 사진을 index.html과 같은 폴더에 넣고, 아래 글을 바꿔 주세요 -->
     <div id="view-gear-eyewear" class="view" style="display:none;">
-        <div class="bikes-container">
-            <h2 class="gear-title">Eyewear</h2>
-            <div class="bike-row">
-                <div class="bike-photo">
-                    <img src="gear-eyewear.jpg" alt="My Eyewear"
-                        onerror="this.style.display='none'; this.parentNode.innerHTML='&lt;span class=&quot;placeholder-text&quot;&gt;gear-eyewear.jpg 사진을 넣어주세요&lt;/span&gt;';">
-                </div>
-                <div class="gear-text">
-                    <p class="bike-label">My Eyewear</p>
-                    <p class="gear-note">여기에 안경 이야기를 적어 주세요 (브랜드, 모델, 언제부터 썼는지 등)</p>
-                </div>
-                <div class="bike-spacer"></div>
-            </div>
-            <a href="#" class="gear-back" onclick="showView('home'); return false;">← home</a>
+        <!-- 로고 아래 가운데 손글씨 제목 (eyewear-title.png) -->
+        <div class="eyewear-title">
+            <img src="eyewear-title.png" alt="Protect ur eyes!!">
         </div>
     </div>
-    <!-- 상의 페이지: gear-top.jpg 사진을 index.html과 같은 폴더에 넣고, 아래 글을 바꿔 주세요 -->
+    <!-- 져지(상의) 페이지 -->
     <div id="view-gear-top" class="view" style="display:none;">
-        <div class="bikes-container">
-            <h2 class="gear-title">Top</h2>
-            <div class="bike-row">
-                <div class="bike-photo">
-                    <img src="gear-top.jpg" alt="My Top"
-                        onerror="this.style.display='none'; this.parentNode.innerHTML='&lt;span class=&quot;placeholder-text&quot;&gt;gear-top.jpg 사진을 넣어주세요&lt;/span&gt;';">
-                </div>
-                <div class="gear-text">
-                    <p class="bike-label">My Top</p>
-                    <p class="gear-note">여기에 상의 이야기를 적어 주세요 (브랜드, 모델, 언제부터 썼는지 등)</p>
-                </div>
-                <div class="bike-spacer"></div>
-            </div>
-            <a href="#" class="gear-back" onclick="showView('home'); return false;">← home</a>
+        <!-- 로고 아래 가운데 손글씨 제목 (jersey-title.png) -->
+        <div class="eyewear-title">
+            <img src="jersey-title.png" alt="Suit up. Speed up!!">
         </div>
     </div>
-    <!-- 신발 페이지: gear-shoes.jpg 사진을 index.html과 같은 폴더에 넣고, 아래 글을 바꿔 주세요 -->
+    <!-- 신발 페이지 -->
     <div id="view-gear-shoes" class="view" style="display:none;">
-        <div class="bikes-container">
-            <h2 class="gear-title">Shoes</h2>
-            <div class="bike-row">
-                <div class="bike-photo">
-                    <img src="gear-shoes.jpg" alt="My Shoes"
-                        onerror="this.style.display='none'; this.parentNode.innerHTML='&lt;span class=&quot;placeholder-text&quot;&gt;gear-shoes.jpg 사진을 넣어주세요&lt;/span&gt;';">
-                </div>
-                <div class="gear-text">
-                    <p class="bike-label">My Shoes</p>
-                    <p class="gear-note">여기에 신발 이야기를 적어 주세요 (브랜드, 모델, 언제부터 썼는지 등)</p>
-                </div>
-                <div class="bike-spacer"></div>
-            </div>
-            <a href="#" class="gear-back" onclick="showView('home'); return false;">← home</a>
+        <!-- 로고 아래 가운데 손글씨 제목 (shoes-title.png) -->
+        <div class="eyewear-title">
+            <img src="shoes-title.png" alt="Good shoes, ride fast!!">
         </div>
     </div>
     <!-- about me 화면 -->
     <div id="view-about" class="view" style="display:none;">
         <div class="about-container">
             <p class="name">name: sunju chae</p>
+            <!-- 인스타그램 · 이메일 손글씨 링크 (메뉴판에 있던 것과 같은 모양) -->
+            <div class="menu-links about-links">
+                <a href="https://www.instagram.com/sssunz_/" target="_blank" rel="noopener" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="insta-text" src="insta-text.png" alt="This is my instagram"></a>
+                <a href="mailto:info@sssunz.com" onclick="socialClick(this, event)"><img class="wheel" src="wheel.png" alt=""><img class="email-text" src="email-text.png" alt="This is my Email"></a>
+            </div>
         </div>
     </div>
     <!-- 하단 영역 -->
@@ -1249,15 +1723,25 @@
     <script>
         // 로고/메뉴 클릭 시 페이지 새로고침 없이 화면만 전환합니다
         var currentView = 'home'; // 지금 보고 있는 화면
-        function showView(name) {
+        // fromHistory: 뒤로가기/앞으로가기로 온 경우에는 기록을 새로 남기지 않아요
+        function showView(name, fromHistory) {
+            if (!document.getElementById('view-' + name)) name = 'home'; // 없는 페이지 이름이면 홈으로
+            var prevView = currentView;
             currentView = name;
+            // 페이지를 바꿀 때마다 주소 끝에 #bikes 처럼 이름을 남겨서, 브라우저 뒤로가기로 돌아올 수 있게 해요
+            if (!fromHistory && name !== prevView) {
+                var newHash = '#' + name;
+                try { history.pushState({ view: name }, '', newHash); }
+                catch (e) { location.hash = name; } // pushState가 막힌 환경에서는 이 방법으로 기록해요
+            }
             document.querySelectorAll('.view').forEach(function (el) {
                 el.style.display = 'none';
             });
             document.getElementById('view-' + name).style.display = 'block';
             // 인스타·이메일 아이콘은 홈 화면에서만 보여요
-            document.querySelector('.brand .social-icons').style.display = (name === 'home') ? '' : 'none';
-            document.querySelectorAll('.menu-list a, .submenu-toggle').forEach(function (a) {
+            var socialIcons = document.querySelector('.brand .social-icons');
+            if (socialIcons) socialIcons.style.display = (name === 'home') ? '' : 'none';
+            document.querySelectorAll('.menu-list a, .submenu-toggle, .menu-links a').forEach(function (a) {
                 a.classList.remove('active');
             });
             var navLink = document.getElementById('nav-' + name);
@@ -1265,6 +1749,11 @@
                 navLink.classList.add('active');
             }
             closeMenu(); // 메뉴에서 고르면 메뉴판은 자동으로 닫혀요
+            // 다른 페이지에서 홈으로 돌아올 때마다 안경·상의·신발이 다시 들썩여요 (홈을 떠나면 멈춰요)
+            if (typeof playGearHint === 'function' && document.readyState === 'complete') {
+                if (name === 'home' && prevView !== 'home') playGearHint();
+                if (name !== 'home') stopGearHint();
+            }
             window.scrollTo(0, 0);
         }
 
@@ -1328,15 +1817,20 @@
         })();
 
         // sunz 로고를 누르면 홈으로 가요 (휴대폰에서는 살짝 커지는 모습을 먼저 보여 줘요)
+        // 이미 홈 화면에 있을 때 누르면 페이지를 새로 고침해요
         function openHome(logo) {
-            if (window.matchMedia('(hover: hover)').matches) {
+            var go = function () {
+                if (currentView === 'home') { location.reload(); return; }
                 showView('home');
+            };
+            if (window.matchMedia('(hover: hover)').matches) {
+                go();
                 return;
             }
             logo.classList.add('pop');
             setTimeout(function () {
                 logo.classList.remove('pop');
-                showView('home');
+                go();
             }, 380);
         }
 
@@ -1355,6 +1849,53 @@
                 else { window.location.href = link.href; } // 휴대폰에서는 인스타그램 앱·메일 앱으로 넘어가요
             }, 700); /* 효과를 보여 주는 시간 (1000 = 1초) */
         }
+
+        // 브라우저 뒤로가기·앞으로가기(휴대폰 쓸어서 뒤로가기 포함)를 누르면 주소에 맞는 페이지를 보여 줘요
+        function showViewFromUrl() {
+            var name = decodeURIComponent(location.hash.replace('#', '')) || 'home';
+            if (!document.getElementById('view-' + name)) name = 'home';
+            if (name !== currentView) showView(name, true);
+        }
+        window.addEventListener('popstate', showViewFromUrl);
+        window.addEventListener('hashchange', showViewFromUrl);
+
+        // 메뉴판 안의 링크: 홈 화면 링크와 똑같이 움직이고, 인스타·이메일을 열면 메뉴판은 닫아요
+        function menuLinkClick(link, event) {
+            socialClick(link, event);
+            if (!link.dataset.view && window.matchMedia('(hover: hover)').matches) closeMenu();
+        }
+
+        // 홈 화면을 볼 때마다: 안경 → 상의 → 신발이 차례로 들썩여요
+        var gearHintTimers = [];
+        function stopGearHint() {
+            gearHintTimers.forEach(clearTimeout);
+            gearHintTimers = [];
+            document.querySelectorAll('.part.hint').forEach(function (p) { p.classList.remove('hint'); });
+        }
+        function playGearHint() {
+            stopGearHint(); // 이미 들썩이는 중이면 처음부터 다시
+            // 안경 → 상의 → 신발 순서로 하나씩, 앞의 것이 끝나기 조금 전에 다음 것이 시작해요. 이 순서를 3번 반복해요.
+            var order = ['.part-eyes', '.part-shirt', '.part-shoes'];
+            var ROUNDS = 3;   // 반복 횟수
+            var START = 600;  // 처음 시작까지 기다리는 시간 (1000 = 1초)
+            var STEP = 620;   // 다음 부분이 시작하기까지 간격 (들썩이는 시간 0.8초보다 조금 짧아서 살짝 겹쳐요)
+            for (var k = 0; k < order.length * ROUNDS; k++) {
+                (function (part, delay) {
+                    if (!part) return;
+                    gearHintTimers.push(setTimeout(function () {
+                        part.classList.remove('hint');
+                        void part.offsetWidth; // 같은 부분이 다시 들썩일 때 처음부터 시작하게 해요
+                        part.classList.add('hint');
+                        part.querySelector('img').addEventListener('animationend', function () {
+                            part.classList.remove('hint');
+                        }, { once: true });
+                    }, delay));
+                })(document.querySelector(order[k % order.length]), START + k * STEP);
+            }
+        }
+        window.addEventListener('load', function () {
+            if (currentView === 'home') playGearHint();
+        });
 
         // ESC 키를 누르면 메뉴판이 닫혀요
         document.addEventListener('keydown', function (e) {
@@ -1381,6 +1922,10 @@
     var _show = window.showView; // 페이지를 바꿀 때도 다시 맞춰요
     if (_show) window.showView = function(n){ var r = _show.apply(this, arguments); fit(); return r; };
 })();
+</script>
+<script>
+/* 주소에 #bikes 처럼 페이지 이름이 붙어 있으면(새로고침·뒤로가기로 들어온 경우) 처음부터 그 페이지를 열어요 */
+if (location.hash) showViewFromUrl();
 </script>
 </body>
 </html>
