@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sssunz.com</title>
+    <!-- 구글 폰트에서 깔끔하고 트렌디한 고딕체(Inter)와 감성적인 필기체 폰트(Caveat)를 불러옵니다 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Give+You+Glory&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Handlee&family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- 인스타그램과 메일 아이콘을 사용하기 위한 라이브러리입니다 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* 깔끔한 화이트 배경 */
+            color: #111111; /* 부드러운 차콜 블랙 글자색 */
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* 1. 상단 헤더 영역 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 60px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0f0f0; /* 아주 연한 구분선 */
+        }
+        /* 왼쪽 로고: 손글씨 느낌의 빈티지 폰트 (sssunz로 변경) */
+        header .logo {
+            font-family: 'Give You Glory', cursive;
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0.5px;
+            color: #111111;
+            text-decoration: none;
+            text-transform: lowercase; /* 이미지 느낌처럼 소문자로 자연스럽게 연결 */
+        }
+        /* 가운데 메뉴 바 (GNB) - 직접 쓴 글씨체(Caveat) 적용 */
+        header nav {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+        header nav a {
+            font-family: 'Handlee', cursive;
+            font-size: 19px;
+            font-weight: 400;
+            color: #555555;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            transition: color 0.2s ease, transform 0.2s ease;
+            position: relative;
+            padding-bottom: 2px;
+            display: inline-block;
+        }
+        header nav a:hover {
+            color: #000000;
+            transform: scale(1.05); /* 마우스 올렸을 때 자연스럽게 몽글몽글 커지는 효과 */
+        }
+        /* 현재 활성화된 메뉴 (Home 밑에 직접 그린 듯한 얇은 밑줄 효과) */
+        header nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 10%;
+            width: 80%;
+            height: 1.5px;
+            background-color: #111111;
+        }
+        /* 오른쪽 SNS 아이콘 */
+        header .social-icons {
+            display: flex;
+            gap: 18px;
+        }
+        header .social-icons a {
+            color: #555555;
+            font-size: 18px;
+            transition: color 0.2s ease;
+            text-decoration: none;
+        }
+        header .social-icons a:hover {
+            color: #000000;
+        }
+        /* 2. 본문 영역 (2단 레이아웃: 왼쪽 사진, 오른쪽 글) */
+        .container {
+            margin: 0;
+            padding: 0;
+        }
+        /* 사진 영역: 카테고리 바 아래 가로 전체를 채우되, 남는 공간은 흰 배경 */
+        .profile-img-box {
+            width: 100%;
+            height: 78vh;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .profile-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+        /* 오른쪽 텍스트 영역 */
+        .about-text {
+            padding-right: 20px;
+        }
+        /* 본문 타이틀 (ABOUT ME 부분도 직접 쓴 폰트 적용) */
+        .about-text h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 58px;
+            margin: 0 0 30px 0;
+            color: #111111;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        /* 직접 글을 쓰실 본문 단락 */
+        .about-text p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #666666;
+            margin-bottom: 24px;
+            word-break: keep-all; /* 한글 줄바꿈 예쁘게 처리 */
+        }
+        /* 푸터 영역 */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            font-size: 11px;
+            color: #999999;
+            letter-spacing: 1px;
+            border-top: 1px solid #f5f5f5;
+            margin-top: 120px;
+        }
+        /* 화면이 작아졌을 때 모바일 대응 */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 30px 20px;
+            }
+            header nav {
+                gap: 25px;
+            }
+            .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                margin: 40px auto;
+            }
+            .about-text h2 {
+                font-size: 48px;
+            }
+        }
+        /* bikes 본문: 사진 + 문구가 짝을 이루는 3단 구성 */
+        .bikes-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 70px 40px 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+        .bike-row {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .bike-row .bike-spacer {
+            flex: 1;
+        }
+        .bike-photo {
+            width: 320px;
+            height: 220px;
+            flex-shrink: 0;
+            border: 1px solid #e5e5e5;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .bike-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .bike-photo .placeholder-text {
+            font-size: 13px;
+            color: #aaaaaa;
+            text-align: center;
+            padding: 10px;
+        }
+        .bike-label {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            color: #111111;
+            flex-shrink: 0;
+        }
+        @media (max-width: 700px) {
+            .bike-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            .bike-photo {
+                width: 100%;
+                height: 240px;
+            }
+        }
+        /* about me 본문: 이름만 표시 */
+        .about-container {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .about-container .name {
+            font-size: 20px;
+            letter-spacing: 1px;
+            color: #111111;
+        }
+        /* 페이지 첫 로딩 시 잠깐 보이는 흰색 화면 (모래처럼 흩어지며 사라짐) */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
+        #preloader canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 첫 로딩 시 1초간 보이는 흰색 화면, 이후 모래처럼 흩어지며 사라집니다 -->
+    <div id="preloader">
+        <canvas id="sand-canvas"></canvas>
+    </div>
+    <!-- 자전거 그림 원본 (나중에 직접 그리신 그림으로 교체하시면 됩니다) -->
+    <img id="bike-icon" style="display:none;" alt="자전거 그림"
+        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 120' fill='none' stroke='%23111111' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='40' cy='90' r='22'/%3E%3Ccircle cx='160' cy='90' r='22'/%3E%3Cpath d='M40 90 L80 50 L120 50 L160 90'/%3E%3Cpath d='M80 50 L95 90 L40 90'/%3E%3Cpath d='M95 90 L120 50'/%3E%3Cpath d='M120 50 L110 28 L132 28'/%3E%3Cpath d='M80 50 L68 30 L90 30'/%3E%3C/svg%3E">
+
+    <!-- 상단 헤더 -->
+    <header>
+        <!-- 왼쪽 위 이름 (sssunz로 변경) -->
+        <a href="#" class="logo" onclick="showView('home'); return false;">
+            sunz
+        </a>
+        
+        <!-- 가운데 메뉴 (전부 감성적인 직접 쓴 폰트로 변경) -->
+        <nav>
+            <a href="#" id="nav-about" onclick="showView('about'); return false;">about me</a>
+            <a href="#" id="nav-bikes" onclick="showView('bikes'); return false;">bikes</a>
+            <a href="#">preparation</a>
+            <a href="#">magazine</a>
+            <a href="#">riding</a>
+        </nav>
+        
+        <!-- 오른쪽 아이콘 (인스타그램, 이메일 주소) -->
+        <div class="social-icons">
+            <a href="https://www.instagram.com/sssunz_/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="mailto:info@sssunz.com"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+    </header>
+    <!-- 본문 영역 -->
+    <div id="view-home" class="view">
+        <div class="container">
+            <!-- 왼쪽: 사진 들어가는 곳 -->
+            <div class="profile-img-box">
+                <img src="photo.jpg" alt="프로필 이미지">
+            </div>
+        </div>
+    </div>
+    <!-- bikes 화면 -->
+    <div id="view-bikes" class="view" style="display:none;">
+        <div class="bikes-container">
+            <div class="bike-row">
+                <div class="bike-photo">
+                    <img src="road-bike.jpg" alt="My Road bike"
+                        onerror="this.style.display='none'; this.parentNode.innerHTML='&lt;span class=&quot;placeholder-text&quot;&gt;road-bike.jpg 사진을 넣어주세요&lt;/span&gt;';">
+                </div>
+                <p class="bike-label">My Road bike</p>
+                <div class="bike-spacer"></div>
+            </div>
+            <div class="bike-row">
+                <div class="bike-photo">
+                    <img src="fixie-bike.jpg" alt="My Fixie bike"
+                        onerror="this.style.display='none'; this.parentNode.innerHTML='&lt;span class=&quot;placeholder-text&quot;&gt;fixie-bike.jpg 사진을 넣어주세요&lt;/span&gt;';">
+                </div>
+                <p class="bike-label">My Fixie bike</p>
+                <div class="bike-spacer"></div>
+            </div>
+        </div>
+    </div>
+    <!-- about me 화면 -->
+    <div id="view-about" class="view" style="display:none;">
+        <div class="about-container">
+            <p class="name">name: sunju chae</p>
+        </div>
+    </div>
+    <!-- 하단 영역 -->
+    <footer>
+        <p>© 2026 sssunz. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // 로고/메뉴 클릭 시 페이지 새로고침 없이 화면만 전환합니다
+        function showView(name) {
+            document.querySelectorAll('.view').forEach(function (el) {
+                el.style.display = 'none';
+            });
+            document.getElementById('view-' + name).style.display = 'block';
+            document.querySelectorAll('header nav a').forEach(function (a) {
+                a.classList.remove('active');
+            });
+            var navLink = document.getElementById('nav-' + name);
+            if (navLink) {
+                navLink.classList.add('active');
+            }
+        }
+
+        // 페이지가 열리면 1초간 흰 화면(자전거 그림 포함)을 보여준 뒤,
+        // 모래가 흩어지듯 사라지면서 홈 화면이 드러나게 합니다
+        (function () {
+            var preloader = document.getElementById('preloader');
+            var canvas = document.getElementById('sand-canvas');
+            var ctx = canvas.getContext('2d');
+            var bikeImg = document.getElementById('bike-icon');
+            var particles = [];
+            var cellSize = 6; // 모래 알갱이 하나의 크기(px)
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            function drawInitialScreen() {
+                resizeCanvas();
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                var w = Math.min(220, canvas.width * 0.4);
+                var h = w * (120 / 200);
+                var x = (canvas.width - w) / 2;
+                var y = (canvas.height - h) / 2;
+                ctx.drawImage(bikeImg, x, y, w, h);
+            }
+
+            function buildParticles() {
+                var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                var cols = Math.ceil(canvas.width / cellSize);
+                var rows = Math.ceil(canvas.height / cellSize);
+                particles = [];
+                for (var r = 0; r < rows; r++) {
+                    for (var c = 0; c < cols; c++) {
+                        var px = c * cellSize;
+                        var py = r * cellSize;
+                        var sampleX = Math.min(px, canvas.width - 1);
+                        var sampleY = Math.min(py, canvas.height - 1);
+                        var idx = (sampleY * canvas.width + sampleX) * 4;
+                        var red = imgData[idx], green = imgData[idx + 1], blue = imgData[idx + 2];
+                        particles.push({
+                            x: px,
+                            y: py,
+                            color: 'rgb(' + red + ',' + green + ',' + blue + ')',
+                            vx: (Math.random() - 0.5) * 0.7,
+                            vy: 0,
+                            gravity: 0.22 + Math.random() * 0.28,
+                            delay: Math.random() * 450, // 알갱이마다 흩어지기 시작하는 시점을 다르게
+                            alpha: 1
+                        });
+                    }
+                }
+            }
+
+            var startTime = null;
+            function animateSand(ts) {
+                if (!startTime) startTime = ts;
+                var elapsed = ts - startTime;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                var stillActive = false;
+
+                for (var i = 0; i < particles.length; i++) {
+                    var p = particles[i];
+                    if (elapsed < p.delay) {
+                        // 아직 흩어지기 전인 알갱이는 제자리에 그대로 표시
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(p.x, p.y, cellSize, cellSize);
+                        stillActive = true;
+                        continue;
+                    }
+                    p.vy += p.gravity;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.alpha -= 0.015;
+                    if (p.alpha > 0 && p.y < canvas.height + cellSize) {
+                        stillActive = true;
+                        ctx.globalAlpha = Math.max(p.alpha, 0);
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(p.x, p.y, cellSize, cellSize);
+                        ctx.globalAlpha = 1;
+                    }
+                }
+
+                if (stillActive) {
+                    requestAnimationFrame(animateSand);
+                } else {
+                    preloader.style.display = 'none';
+                }
+            }
+
+            function startDissolve() {
+                buildParticles();
+                requestAnimationFrame(animateSand);
+            }
+
+            window.addEventListener('load', function () {
+                drawInitialScreen();
+                setTimeout(startDissolve, 1000);
+            });
+        })();
+    </script>
+</body>
+</html>
